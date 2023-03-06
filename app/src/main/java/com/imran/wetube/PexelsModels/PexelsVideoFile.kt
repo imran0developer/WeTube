@@ -1,6 +1,6 @@
 package com.imran.wetube.PexelsModels
 
-data class VideoFile(
+data class PexelsVideoFile(
     val file_type: String,
     val fps: Double,
     val height: Int,

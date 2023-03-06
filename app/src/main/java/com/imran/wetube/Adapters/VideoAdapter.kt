@@ -2,27 +2,22 @@ package com.imran.wetube.Adapters
 
 
 import android.content.Context
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.cardview.widget.CardView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.imran.wetube.PexelsModels.Video
+import com.imran.wetube.PexelsModels.PexelsVideo
 import com.imran.wetube.R
+import com.imran.wetube.VideoPlayActivity
+import com.imran.wetube.constants.Companion.LINK
 import com.squareup.picasso.Picasso
 
-import kotlin.random.Random
-
-class VideoAdapter(private val context: Context ,private val videoList: List<Video>) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
+class VideoAdapter(private val context: Context ,private val pexelsVideoList: ArrayList<PexelsVideo>) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
 
 //    private val videoList = ArrayList<Video>()
-    private val fullList = ArrayList<Video>()
+    private val fullList = ArrayList<PexelsVideo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -31,24 +26,34 @@ class VideoAdapter(private val context: Context ,private val videoList: List<Vid
     }
 
     override fun getItemCount(): Int {
-        return videoList.size
+        return pexelsVideoList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val video = videoList[position]
-    Picasso.get().load(video.image).into(holder.imageView)
-//        holder.imageView.setImageResource(R.drawable.ic_launcher_background)
+        val videos = pexelsVideoList[position]
+        val video = videos.video_files[0]
+        val video_str = video.link
 
-        Log.d("TAG2", "onResponse: image ${video.image}")
+     Picasso.get().load(videos.image).into(holder.imageView)
+
+
+//      Log.d("TAG2", "onResponse: image ${video.image}")
+        holder.play.setOnClickListener {
+//        context.startActivity(Intent(context,VideoPlayActivity::class.java))
+            val intent = Intent(context,VideoPlayActivity::class.java)
+            intent.putExtra(LINK,video_str)
+            context.startActivity(intent)
+        }
+
+
     }
 
-
-    fun updateList(newList : ArrayList<Video>){
-//        videoList.clear()
+    fun updateList(newList : ArrayList<PexelsVideo>){
+        pexelsVideoList.clear()
         fullList.clear()
 
         fullList.addAll(newList)
-//        videoList.addAll(newList)
+        pexelsVideoList.addAll(newList)
 
         notifyDataSetChanged()
 
@@ -57,7 +62,12 @@ class VideoAdapter(private val context: Context ,private val videoList: List<Vid
 
 
     inner class ViewHolder(ItemView : View) : RecyclerView.ViewHolder(ItemView){
-    val imageView = itemView.findViewById<ImageView>(R.id.imageView);
+
+    val imageView: ImageView = itemView.findViewById(R.id.imageView)
+    val play: TextView = itemView.findViewById(R.id.play)
+    val upload: TextView = itemView.findViewById(R.id.upload)
+
+//    val videoView: PlayerView = itemView.findViewById(R.id.exoPlayer)
 
     }
 

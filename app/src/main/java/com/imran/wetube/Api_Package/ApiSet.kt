@@ -1,21 +1,27 @@
 package com.imran.wetube.Api_Package
 
-import com.imran.wetube.Api_Package.ApiClient.Companion.API_KEY
-import com.imran.wetube.PexelsModels.VideoModel
+import com.imran.wetube.Models.MsgModel
+import com.imran.wetube.Models.UserModel
 import retrofit2.Call
-import retrofit2.Response
-import retrofit2.http.GET
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 
-import retrofit2.http.Headers
-import retrofit2.http.Query
+import retrofit2.http.POST
 
-public interface ApiSet {
+interface ApiSet {
+    @FormUrlEncoded
+    @POST("register.php")
+    fun registerUser(
+        @Field("name") name: String,
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("dp") dp: String
+    ) : Call<MsgModel>
 
-    @Headers("Authorization:$API_KEY")
-    @GET("popular")
-    fun getVideos(
-    @Query("page") page: Int,
-    @Query("per_page") perPage: Int
-//    ): Response<VideoModel>
-    ): Call<VideoModel?>
+    @FormUrlEncoded
+    @POST("login.php")
+    fun loginUser(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ) : Call<UserModel>
 }

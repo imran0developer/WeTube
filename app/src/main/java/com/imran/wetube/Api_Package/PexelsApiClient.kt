@@ -4,9 +4,11 @@ import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiClient {
+class PexelsApiClient {
     companion object{
-        val BASE_URL = "http://192.168.0.7/www/wetube_api/"
+        val BASE_URL = "https://api.pexels.com/videos/"
+        const val API_KEY = "kAfPHIf5LHfehESMYA80TsLwhAiqvPAEz8adEkDCoDy3eeJJVPlhkz76"
+
         fun getClient(): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
